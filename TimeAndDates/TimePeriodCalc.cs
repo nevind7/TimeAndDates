@@ -1,6 +1,5 @@
 ﻿using System;
-
-using TimeAndDates.enums;
+using TimeAndDates.Enums;
 using TimeAndDates.Interfaces;
 
 namespace TimeAndDates

@@ -1,65 +1,69 @@
 ﻿using System;
+using System.ComponentModel;
 using TimeAndDates.Enums;
 
 namespace TimeAndDates.Interfaces
 {
-    public interface ITimePeriod
+    public interface ITimePeriodCollection : ITimePeriodContainer
     {
         // ----------------------------------------------------------------------
-        bool HasStart { get; }
+        new DateTime Start { get; set; }
 
         // ----------------------------------------------------------------------
-        DateTime Start { get; }
+        new DateTime End { get; set; }
 
         // ----------------------------------------------------------------------
-        bool HasEnd { get; }
+        TimeSpan TotalDuration { get; }
 
         // ----------------------------------------------------------------------
-        DateTime End { get; }
+        TimeSpan GetTotalDuration(IDurationProvider provider);
 
         // ----------------------------------------------------------------------
-        TimeSpan Duration { get; }
+        void SortBy(ITimePeriodComparer comparer);
 
         // ----------------------------------------------------------------------
-        string DurationDescription { get; }
+        void SortReverseBy(ITimePeriodComparer comparer);
 
         // ----------------------------------------------------------------------
-        bool IsMoment { get; }
+        void SortByStart(ListSortDirection sortDirection = ListSortDirection.Ascending);
 
         // ----------------------------------------------------------------------
-        bool IsAnytime { get; }
+        void SortByEnd(ListSortDirection sortDirection = ListSortDirection.Ascending);
 
         // ----------------------------------------------------------------------
-        bool IsReadOnly { get; }
+        void SortByDuration(ListSortDirection sortDirection = ListSortDirection.Ascending);
 
         // ----------------------------------------------------------------------
-        TimeSpan GetDuration(IDurationProvider provider);
+        bool HasInsidePeriods(ITimePeriod test);
 
         // ----------------------------------------------------------------------
-        void Setup(DateTime newStart, DateTime newEnd);
+        bool HasOverlaps();
 
         // ----------------------------------------------------------------------
-        bool IsSamePeriod(ITimePeriod test);
+        bool HasGaps();
 
         // ----------------------------------------------------------------------
-        bool HasInside(DateTime test);
+        bool HasOverlapPeriods(ITimePeriod test);
 
         // ----------------------------------------------------------------------
-        bool HasInside(ITimePeriod test);
+        bool HasIntersectionPeriods(DateTime test);
 
         // ----------------------------------------------------------------------
-        bool IntersectsWith(ITimePeriod test);
+        bool HasIntersectionPeriods(ITimePeriod test);
 
         // ----------------------------------------------------------------------
-        bool OverlapsWith(ITimePeriod test);
+        ITimePeriodCollection InsidePeriods(ITimePeriod test);
 
         // ----------------------------------------------------------------------
-        PeriodRelation GetRelation(ITimePeriod test);
+        ITimePeriodCollection OverlapPeriods(ITimePeriod test);
 
         // ----------------------------------------------------------------------
-        int CompareTo(ITimePeriod other, ITimePeriodComparer comparer);
+        ITimePeriodCollection IntersectionPeriods(DateTime test);
 
         // ----------------------------------------------------------------------
-        string GetDescription(ITimeFormatter formatter);
-    } // interface ITimePeriod
+        ITimePeriodCollection IntersectionPeriods(ITimePeriod test);
+
+        // ----------------------------------------------------------------------
+        ITimePeriodCollection RelationPeriods(ITimePeriod test, PeriodRelation relation);
+    } // interface ITimePeriodCollection
 }

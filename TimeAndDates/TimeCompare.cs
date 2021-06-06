@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
-
-using TimeAndDates.enums;
+using TimeAndDates.Enums;
 
 namespace TimeAndDates
 {

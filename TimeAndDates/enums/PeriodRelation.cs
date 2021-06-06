@@ -1,4 +1,4 @@
-﻿namespace TimeAndDates.enums
+﻿namespace TimeAndDates.Enums
 {
     public enum PeriodRelation
     {

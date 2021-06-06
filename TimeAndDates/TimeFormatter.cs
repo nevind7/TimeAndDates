@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
-
-using TimeAndDates.enums;
+using TimeAndDates.Enums;
 using TimeAndDates.Interfaces;
 
 namespace TimeAndDates

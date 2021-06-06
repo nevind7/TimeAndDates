@@ -1,6 +1,5 @@
 ﻿using System;
-
-using TimeAndDates.enums;
+using TimeAndDates.Enums;
 
 namespace TimeAndDates
 {
@@ -52,9 +51,9 @@ namespace TimeAndDates
 
         // ----------------------------------------------------------------------
         // halfyear
-        public static YearMonth[] FirstHalfYearMonths = new[] { YearMonth.January, YearMonth.February, YearMonth.March, YearMonth.April, YearMonth.May, YearMonth.June };
+        public static YearMonth[] FirstHalfYearMonths = { YearMonth.January, YearMonth.February, YearMonth.March, YearMonth.April, YearMonth.May, YearMonth.June };
 
-        public static YearMonth[] SecondHalfYearMonths = new[] { YearMonth.July, YearMonth.August, YearMonth.September, YearMonth.October, YearMonth.November, YearMonth.December };
+        public static YearMonth[] SecondHalfYearMonths = { YearMonth.July, YearMonth.August, YearMonth.September, YearMonth.October, YearMonth.November, YearMonth.December };
 
         // ----------------------------------------------------------------------
         // quarter
@@ -64,10 +63,10 @@ namespace TimeAndDates
         public const int ThirdQuarterMonthIndex = SecondQuarterMonthIndex + MonthsPerQuarter;
         public const int FourthQuarterMonthIndex = ThirdQuarterMonthIndex + MonthsPerQuarter;
 
-        public static YearMonth[] FirstQuarterMonths = new[] { YearMonth.January, YearMonth.February, YearMonth.March };
-        public static YearMonth[] SecondQuarterMonths = new[] { YearMonth.April, YearMonth.May, YearMonth.June };
-        public static YearMonth[] ThirdQuarterMonths = new[] { YearMonth.July, YearMonth.August, YearMonth.September };
-        public static YearMonth[] FourthQuarterMonths = new[] { YearMonth.October, YearMonth.November, YearMonth.December };
+        public static YearMonth[] FirstQuarterMonths = { YearMonth.January, YearMonth.February, YearMonth.March };
+        public static YearMonth[] SecondQuarterMonths = { YearMonth.April, YearMonth.May, YearMonth.June };
+        public static YearMonth[] ThirdQuarterMonths = { YearMonth.July, YearMonth.August, YearMonth.September };
+        public static YearMonth[] FourthQuarterMonths = { YearMonth.October, YearMonth.November, YearMonth.December };
 
         // ----------------------------------------------------------------------
         // duration
