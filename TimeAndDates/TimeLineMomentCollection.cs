@@ -19,6 +19,12 @@ namespace TimeAndDates
             AddAll(periods);
         } // TimeLineMomentCollection
 
+        public TimeLineMomentCollection(IEnumerable<IWeekDay> weekdays)
+        {
+            AddAll(weekdays);
+        } // TimeLineMomentCollection
+
+
         // ----------------------------------------------------------------------
         public int Count => timeLineMoments.Count; // Count
 
@@ -74,6 +80,23 @@ namespace TimeAndDates
             }
             Sort();
         } // AddAll
+
+        // ----------------------------------------------------------------------
+        public void AddAll(IEnumerable<IWeekDay> weekdays)
+        {
+            if (weekdays == null)
+            {
+                throw new ArgumentNullException("weekdays");
+            }
+
+            foreach (IWeekDay weekDay in weekdays)
+            {
+                AddStart(weekDay.Hours.Start);
+                AddEnd(weekDay.Hours.End);
+            }
+            Sort();
+        } // AddAll
+
 
         // ----------------------------------------------------------------------
         public void Remove(ITimePeriod period)

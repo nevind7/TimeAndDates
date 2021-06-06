@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using TimeAndDates.Enums;
 using TimeAndDates.Interfaces;
 using TimeAndDates.Utilities;
@@ -76,7 +77,7 @@ namespace TimeAndDates
             get
             {
                 DateTime? end = GetEnd();
-                return end.HasValue ? end.Value : TimeSpec.MaxPeriodDate;
+                return end ?? TimeSpec.MaxPeriodDate;
             }
             set
             {
@@ -460,6 +461,7 @@ namespace TimeAndDates
         // ----------------------------------------------------------------------
         public bool ContainsPeriod(ITimePeriod test)
         {
+         
             if (test == null)
             {
                 throw new ArgumentNullException("test");
@@ -474,6 +476,19 @@ namespace TimeAndDates
             }
             return false;
         } // ContainsPeriod
+
+        // ----------------------------------------------------------------------
+        public bool ContainsDay(ITimePeriod test)
+        {
+         
+            if (test == null)
+            {
+                throw new ArgumentNullException("test");
+            }
+
+            return periods.Any(period => period.Start.DayOfWeek == test.Start.DayOfWeek);
+        } // ContainsPeriod
+
 
         // ----------------------------------------------------------------------
         public void AddAll(IEnumerable<ITimePeriod> timePeriods)

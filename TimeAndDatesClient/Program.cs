@@ -1,36 +1,29 @@
 ﻿using System;
 using TimeAndDates;
-using TimeAndDates.Interfaces;
+
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace TimeAndDatesClient
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var timeRange = new TimeRange(DateTime.Now, DateTime.Now.AddHours(7));
-
             Business myBusiness = new Business();
+            myBusiness.WorkWeek.SetWeek();
+         
 
-            var timeBlock = new TimeBlock(DateTime.Now, DateTime.Now.AddHours(4));
 
-            myBusiness.BusinessHours.Add(timeRange);
-            myBusiness.BusinessHours.Add(timeBlock);
+            string jsonString = JsonSerializer.Serialize(myBusiness);
 
-            foreach (var hours in myBusiness.BusinessHours)
-            {
-                Console.WriteLine(hours.ToString());
-            }
-
-           
+            Console.WriteLine(jsonString);
         }
     }
 
     public class Business
     {
-        //public TimeRange 
-        public TimePeriodCollection BusinessHours = new TimePeriodCollection();
+        public Week WorkWeek { get; set; } = new Week();
     }
-
-
 }

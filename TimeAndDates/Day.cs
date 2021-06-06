@@ -8,6 +8,12 @@ namespace TimeAndDates
     public sealed class Day : DayTimeRange
     {
         // ----------------------------------------------------------------------
+        public Day(DayOfWeek dayOfWeek)
+        {
+            StartDayOfWeek = dayOfWeek;
+        } // Day
+
+        // ----------------------------------------------------------------------
         public Day() :
             this(new TimeCalendar())
         {
@@ -65,7 +71,11 @@ namespace TimeAndDates
         public int DayValue => StartDay; // DayValue
 
         // ----------------------------------------------------------------------
-        public DayOfWeek DayOfWeek => StartDayOfWeek; // DayOfWeek
+        public DayOfWeek DayOfWeek
+        {
+            get => StartDayOfWeek;
+            set => StartDayOfWeek = value;
+        }
 
         // ----------------------------------------------------------------------
         public string DayName => StartDayName; // DayName

@@ -1,121 +1,127 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using TimeAndDates.Interfaces;
 using TimeAndDates.Utilities;
 
 namespace TimeAndDates
 {
-   // ------------------------------------------------------------------------
-	public abstract class DayTimeRange : CalendarTimeRange
-	{
+    // ------------------------------------------------------------------------
+    public abstract class DayTimeRange : CalendarTimeRange
+    {
+        // ----------------------------------------------------------------------
+        protected DayTimeRange()
+        {
+        } // DayTimeRange
 
-		// ----------------------------------------------------------------------
-		protected DayTimeRange( int year, int month, int day, int dayCount ) :
-			this( year, month, day, dayCount, new TimeCalendar() )
-		{
-		} // DayTimeRange
 
-		// ----------------------------------------------------------------------
-		protected DayTimeRange( int year, int month, int day, int dayCount, ITimeCalendar calendar ) :
-			base( GetPeriodOf( year, month, day, dayCount ), calendar )
-		{
-			this.day = new DateTime( year, month, day );
-			this.dayCount = dayCount;
-			endDay = calendar.MapEnd( this.day.AddDays( dayCount ) );
-		} // DayTimeRange
 
-		// ----------------------------------------------------------------------
-		public int StartYear => day.Year; // StartYear
+        // ----------------------------------------------------------------------
+        protected DayTimeRange(int year, int month, int day, int dayCount) :
+            this(year, month, day, dayCount, new TimeCalendar())
+        {
+        } // DayTimeRange
 
-		// ----------------------------------------------------------------------
-		public int StartMonth => day.Month; // StartMonth
+        // ----------------------------------------------------------------------
+        protected DayTimeRange(int year, int month, int day, int dayCount, ITimeCalendar calendar) :
+            base(GetPeriodOf(year, month, day, dayCount), calendar)
+        {
+            this._startDay = new DateTime(year, month, day);
+            this._dayCount = dayCount;
+            _endDay = calendar.MapEnd(this._startDay.AddDays(dayCount));
+        } // DayTimeRange
 
-		// ----------------------------------------------------------------------
-		public int StartDay => day.Day; // StartDay
+        // ----------------------------------------------------------------------
+        public int StartYear => _startDay.Year; // StartYear
 
-		// ----------------------------------------------------------------------
-		public int EndYear => endDay.Year; // EndYear
+        // ----------------------------------------------------------------------
+        public int StartMonth => _startDay.Month; // StartMonth
 
-		// ----------------------------------------------------------------------
-		public int EndMonth => endDay.Month; // EndMonth
+        // ----------------------------------------------------------------------
+        public int StartDay => _startDay.Day; // StartDay
 
-		// ----------------------------------------------------------------------
-		public int EndDay => endDay.Day; // EndDay
+        // ----------------------------------------------------------------------
+        public int EndYear => _endDay.Year; // EndYear
 
-		// ----------------------------------------------------------------------
-		public int DayCount => dayCount; // DayCount
+        // ----------------------------------------------------------------------
+        public int EndMonth => _endDay.Month; // EndMonth
 
-		// ----------------------------------------------------------------------
-		public DayOfWeek StartDayOfWeek => Calendar.GetDayOfWeek( day ); // StartDayOfWeek
+        // ----------------------------------------------------------------------
+        public int EndDay => _endDay.Day; // EndDay
 
-		// ----------------------------------------------------------------------
-		public string StartDayName => Calendar.GetDayName( StartDayOfWeek ); // StartDayName
+        // ----------------------------------------------------------------------
+        public int DayCount => _dayCount; // DayCount
 
-		// ----------------------------------------------------------------------
-		public DayOfWeek EndDayOfWeek => Calendar.GetDayOfWeek( endDay ); // EndDayOfWeek
+        // ----------------------------------------------------------------------
+        public DayOfWeek StartDayOfWeek
+        {
+            get => Calendar.GetDayOfWeek(_startDay);
+            set => _startDayOfWeek = value;
+        }
 
-		// ----------------------------------------------------------------------
-		public string EndDayName => Calendar.GetDayName( EndDayOfWeek ); // EndDayName
+        // ----------------------------------------------------------------------
+        public string StartDayName => Calendar.GetDayName(StartDayOfWeek); // StartDayName
 
-		// ----------------------------------------------------------------------
-		public ITimePeriodCollection GetHours()
-		{
-			TimePeriodCollection hours = new TimePeriodCollection();
-			DateTime date = day;
-			for ( int day = 0; day < dayCount; day++ )
-			{
-				DateTime curDay = date.AddDays( day );
-				for ( int hour = 0; hour < TimeSpec.HoursPerDay; hour++ )
-				{
-					hours.Add( new Hour( curDay.AddHours( hour ), Calendar ) );
-				}
-			}
-			return hours;
-		} // GetHours
+        // ----------------------------------------------------------------------
+        public DayOfWeek EndDayOfWeek => Calendar.GetDayOfWeek(_endDay); // EndDayOfWeek
 
-		// ----------------------------------------------------------------------
-		protected override bool IsEqual( object obj )
-		{
-			return base.IsEqual( obj ) && HasSameData( obj as DayTimeRange );
-		} // IsEqual
+        // ----------------------------------------------------------------------
+        public string EndDayName => Calendar.GetDayName(EndDayOfWeek); // EndDayName
 
-		// ----------------------------------------------------------------------
-		private bool HasSameData( DayTimeRange comp )
-		{
-			return 
-				day == comp.day && 
-				dayCount == comp.dayCount && 
-				endDay == comp.endDay;
-		} // HasSameData
+        // ----------------------------------------------------------------------
+        public ITimePeriodCollection GetHours()
+        {
+            TimePeriodCollection hours = new TimePeriodCollection();
+            DateTime date = _startDay;
+            for (int day = 0; day < _dayCount; day++)
+            {
+                DateTime curDay = date.AddDays(day);
+                for (int hour = 0; hour < TimeSpec.HoursPerDay; hour++)
+                {
+                    hours.Add(new Hour(curDay.AddHours(hour), Calendar));
+                }
+            }
+            return hours;
+        } // GetHours
 
-		// ----------------------------------------------------------------------
-		protected override int ComputeHashCode()
-		{
-			return HashTool.ComputeHashCode( base.ComputeHashCode(), day, dayCount, endDay );
-		} // ComputeHashCode
+        // ----------------------------------------------------------------------
+        protected override bool IsEqual(object obj)
+        {
+            return base.IsEqual(obj) && HasSameData(obj as DayTimeRange);
+        } // IsEqual
 
-		// ----------------------------------------------------------------------
-		private static TimeRange GetPeriodOf( int year, int month, int day, int dayCount )
-		{
-			if ( dayCount < 1 )
-			{
-				throw new ArgumentOutOfRangeException( "dayCount" );
-			}
+        // ----------------------------------------------------------------------
+        private bool HasSameData(DayTimeRange comp)
+        {
+            return
+                _startDay == comp._startDay &&
+                _dayCount == comp._dayCount &&
+                _endDay == comp._endDay;
+        } // HasSameData
 
-			DateTime start = new DateTime( year, month, day );
-			DateTime end = start.AddDays( dayCount );
-			return new TimeRange( start, end );
-		} // GetPeriodOf
+        // ----------------------------------------------------------------------
+        protected override int ComputeHashCode()
+        {
+            return HashTool.ComputeHashCode(base.ComputeHashCode(), _startDay, _dayCount, _endDay);
+        } // ComputeHashCode
 
-		// ----------------------------------------------------------------------
-		// members
-		private readonly DateTime day;
-		private readonly int dayCount;
-		private readonly DateTime endDay; // cache
+        // ----------------------------------------------------------------------
+        private static TimeRange GetPeriodOf(int year, int month, int day, int dayCount)
+        {
+            if (dayCount < 1)
+            {
+                throw new ArgumentOutOfRangeException("dayCount");
+            }
 
-	} // class DayTimeRange
+            DateTime start = new DateTime(year, month, day);
+            DateTime end = start.AddDays(dayCount);
+            return new TimeRange(start, end);
+        } // GetPeriodOf
+
+        // ----------------------------------------------------------------------
+        // members
+        private readonly DateTime _startDay;
+        private DayOfWeek _startDayOfWeek;
+        private readonly int _dayCount;
+        private readonly DateTime _endDay; // cache
+    } // class DayTimeRange
 }

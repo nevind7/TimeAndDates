@@ -8,6 +8,12 @@ namespace TimeAndDates
 {
     public class CalendarTimeRange : TimeRange, ICalendarTimeRange
     {
+
+        // ----------------------------------------------------------------------
+        public CalendarTimeRange()
+        {
+        } // CalendarTimeRange
+
         // ----------------------------------------------------------------------
         public CalendarTimeRange(DateTime start, DateTime end) :
             this(start, end, new TimeCalendar())
